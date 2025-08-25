@@ -14,11 +14,14 @@
         <h2>{{entry['title']}}</h2>
         <p><em>Written by {{entry['author']}}</em></p>
         <p>{{entry['content']}}</p>
+        <form action="{{ url_for('delete', post_id=entry['id']) }}" method="POST" style="display:inline;">
+            <button type="submit">Delete</button>
+        </form>
     </div>
     {% endfor %}
 
     <form action="/add">
-            <button type="submit">Add post</button>
+        <button type="submit">Add post</button>
     </form>
 </body>
 </html>
