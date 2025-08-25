@@ -21,11 +21,9 @@ To run the application:
 The application will start a development server on http://localhost:5000
 """
 
-
 import os
 from flask import Flask, render_template, request, redirect, url_for
 import helpers.json.json_helper as json_helper
-
 
 app = Flask(__name__)
 PATH = os.path.join("data", "blog_posts.json")
@@ -40,7 +38,7 @@ def index():
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-    """Handle displaying the add form and saving a new blog post."""
+    """Handle displaying the ADD form and saving a new blog post."""
     if request.method == 'POST':
         # read the existing posts
         blog_posts = json_helper.read_json_data(PATH)
@@ -68,6 +66,43 @@ def delete(post_id):
             json_helper.write_json_data(PATH, blog_posts)
 
     return redirect(url_for('index'))
+
+
+@app.route('/update/<int:post_id>', methods=['GET', 'POST'])
+def update(post_id):
+    """Handle displaying and processing the update form for a blog post."""
+    # Fetch the blog posts from the JSON file
+    post = fetch_post_by_id(post_id)
+    if post is None:
+        # Post not found
+        return "Post not found", 404
+
+    if request.method == 'POST':
+        # Update the post in the JSON file
+        # read the existing posts
+        blog_posts = json_helper.read_json_data(PATH)
+        for blog in blog_posts:
+            if blog['id'] == post_id:
+                blog['author'] = request.form.get("author")
+                blog['title'] = request.form.get("title")
+                blog['content'] = request.form.get("content")
+        json_helper.write_json_data(PATH, blog_posts)
+        # Redirect back to index
+        return redirect(url_for('index'))
+
+    # Else, it's a GET request
+    if request.method == 'GET':
+        # So display the update.html page
+        return render_template('update.html', post=post)
+
+
+def fetch_post_by_id(post_id):
+    """Return a blog post dictionary matching the given ID, or None if not found."""
+    blog_posts = json_helper.read_json_data(PATH)
+    for post in blog_posts:
+        if post['id'] == post_id:
+            return post
+    return None
 
 
 if __name__ == "__main__":

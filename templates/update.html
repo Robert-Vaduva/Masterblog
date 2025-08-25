@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Blog Post</title>
+    <title>Update Blog Post</title>
 </head>
 <body>
     <h1>Update Blog Post</h1>
 
-    <form action="/add" method="POST">
+    <form action="{{ url_for('update', post_id=post['id']) }}" method="POST">
         <label for="author">Author:</label>
         <input type="text" id="author" name="author" required>
         <label for="title">Title:</label>

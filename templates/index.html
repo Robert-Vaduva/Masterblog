@@ -15,7 +15,10 @@
         <p><em>Written by {{entry['author']}}</em></p>
         <p>{{entry['content']}}</p>
         <form action="{{ url_for('delete', post_id=entry['id']) }}" method="POST" style="display:inline;">
-            <button type="submit">Delete</button>
+            <button type="submit">Delete post</button>
+        </form>
+        <form action="{{ url_for('update', post_id=entry['id']) }}" method="GET" style="display:inline;">
+            <button type="submit">Update post</button>
         </form>
     </div>
     {% endfor %}
