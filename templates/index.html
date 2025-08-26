@@ -11,14 +11,17 @@
 
     {% for entry in posts %}
     <div class="post">
-        <h2>{{entry['title']}}</h2>
+        <h2>{{entry['title']}} - likes: {{entry['likes']}}</h2>
         <p><em>Written by {{entry['author']}}</em></p>
         <p>{{entry['content']}}</p>
-        <form action="{{ url_for('delete', post_id=entry['id']) }}" method="POST" style="display:inline;">
-            <button type="submit">Delete post</button>
+        <form action="{{ url_for('like', post_id=entry['id']) }}" method="GET" style="display:inline;">
+            <button type="submit">Like post</button>
         </form>
         <form action="{{ url_for('update', post_id=entry['id']) }}" method="GET" style="display:inline;">
             <button type="submit">Update post</button>
+        </form>
+        <form action="{{ url_for('delete', post_id=entry['id']) }}" method="POST" style="display:inline;">
+            <button type="submit">Delete post</button>
         </form>
     </div>
     {% endfor %}
