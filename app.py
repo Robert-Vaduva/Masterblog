@@ -84,7 +84,7 @@ def update(post_id):
     # Fetch the blog posts from the JSON file
     post = fetch_post_by_id(post_id)
 
-    if request.method == 'POST' and post is not None:
+    if request.method == 'POST' and post:
         # Update the post in the JSON file
         blog_posts = json_helper.read_json_data(PATH)
         for blog in blog_posts:
@@ -97,7 +97,7 @@ def update(post_id):
         # Redirect back to index
         return redirect(url_for('index'))
 
-    if request.method == 'GET' and post is not None:
+    if request.method == 'GET' and post:
         # So display the update.html page
         return render_template('update.html', post=post)
 
